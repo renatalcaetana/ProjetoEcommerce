@@ -1,0 +1,3 @@
+o banco de dados foi criado localmente em Mysql na minha maquina
+
+nessa pasta contem os scripts para criação das tabelas

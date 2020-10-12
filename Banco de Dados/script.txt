@@ -1,0 +1,57 @@
+CREATE TABLE cliente (
+    id VARCHAR(36) PRIMARY KEY,
+    nome VARCHAR(60) not null,
+    data_cadastro DATE not null,
+    status CHAR(10) not null
+)
+CREATE TABLE testerenata.produto (
+    id VARCHAR(36) PRIMARY KEY,
+    nome VARCHAR(60) not null,
+    valor double(15,2) not null,
+    disponivel bit not null
+)
+CREATE TABLE testerenata.pedido (
+    id VARCHAR(36) PRIMARY KEY,
+    data_cadastro datetime not null,
+    clienteId VARCHAR(36)  not null,
+    status_entrega char(10) not null
+);
+ALTER TABLE testerenata.pedido
+ADD CONSTRAINT fk_cliente
+FOREIGN KEY (ClienteId )
+REFERENCES testerenata.cliente (id) ;
+
+CREATE TABLE testerenata.produtoPedido (
+    pedidoId VARCHAR(36) not null,
+    produtoId VARCHAR(36) not null,
+    quantidade int not null,
+    CONSTRAINT produtoPedido PRIMARY KEY(pedidoId ,produtoId )
+);
+ALTER TABLE testerenata.produtoPedido
+ADD CONSTRAINT fk_Pedido
+FOREIGN KEY (pedidoId)
+REFERENCES testerenata.pedido (id) ;
+
+ALTER TABLE testerenata.produtoPedido
+ADD CONSTRAINT fk_produto
+FOREIGN KEY (produtoId )
+REFERENCES testerenata.produto(id) ;
+
+
+insert into testerenata.cliente(id,nome,data_cadastro,status)
+select UUID_TO_BIN(UUID()),'Jose de Souza',STR_TO_DATE('08-10-2020', '%d-%m-%Y'),'Ativo'
+
+insert into testerenata.produto
+select uuid(),'Geladeira', 1233.12,1; 
+insert into testerenata.produto
+select uuid(),'Fogao', 1333.12,1; 
+insert into testerenata.produto
+select uuid(),'Carro', 200,1; 
+insert into testerenata.produto
+select uuid(),'Livro', 1233.12,1; 
+
+insert into testerenata.pedido
+select uuid(),STR_TO_DATE('11-10-2020', '%d-%m-%Y'),'77487abc-1652-40ed-8091-7b5f945fac3a' , 'Pendente'
+
+insert into testerenata.produtoPedido
+select 'c19ca24f-0be2-11eb-88f0-b8ac6fec93d1',id from  testerenata.produto
